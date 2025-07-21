@@ -1,5 +1,6 @@
 let heading = document.querySelector(".heading");
-const button = document.querySelector("button");
+const form = document.querySelector("form");
+const search = document.getElementById("search");
 
 heading.style.backgroundColor = "blue";
 
@@ -20,6 +21,7 @@ const getWeather = async (city, unit = "us") => {
 const processData = (weatherJSON) => {
   let weatherData = {};
 
+  weatherData.resolvedAddress = weatherJSON.resolvedAddress;
   weatherData.currentConditions = weatherJSON.currentConditions;
   weatherData.days = {};
   for (let i = 0; i < 7; i++) {
@@ -29,12 +31,17 @@ const processData = (weatherJSON) => {
   return weatherData;
 };
 
-button.addEventListener("click", () => {
-  const city = prompt("What city?");
-  getWeather(city)
-    .then(processData)
-    .then((weatherData) => {
-      heading.textContent = `It's ${weatherData.currentConditions.temp}° F right now in ${weatherData.resolvedAddress}.`;
-      return weatherData;
-    });
-});
+const renderWeather = (weatherData) => {
+  heading.textContent = `It's ${weatherData.currentConditions.temp}° F right now in ${weatherData.resolvedAddress}.`;
+};
+
+const submitEventHandler = async function (event) {
+  event.preventDefault();
+
+  const city = search.value;
+  let weatherJSON = await getWeather(city);
+  let weatherData = await processData(weatherJSON);
+  renderWeather(weatherData);
+};
+
+form.addEventListener("submit", submitEventHandler);
