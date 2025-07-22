@@ -9,8 +9,8 @@ let tempUnit = "F";
 heading.style.backgroundColor = "blue";
 
 const toggleUnits = () => {
-  unitGroup = unitToggle.checked ? "us" : "metric";
-  tempUnit = unitToggle.checked ? "F" : "C";
+  unitGroup = unitToggle.checked ? "metric" : "us";
+  tempUnit = unitToggle.checked ? "C" : "F";
 };
 
 const getWeather = async (city, unit = "us") => {
