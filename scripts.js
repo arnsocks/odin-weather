@@ -1,10 +1,22 @@
 let heading = document.querySelector(".heading");
 const form = document.querySelector("form");
 const search = document.getElementById("search");
+const unitToggle = document.getElementById("units");
+
+let unitGroup = "us";
+let tempUnit = "F";
 
 heading.style.backgroundColor = "blue";
 
+const toggleUnits = () => {
+  unitGroup = unitToggle.checked ? "us" : "metric";
+  tempUnit = unitToggle.checked ? "F" : "C";
+};
+
 const getWeather = async (city, unit = "us") => {
+  console.log(
+    `You asked for the weather in ${city} using the ${unit} system. `
+  );
   try {
     const response = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}?unitGroup=${unit}&include=current&key=CGFGTC498RSULEKK8AJRBS8N2&contentType=json`
@@ -20,28 +32,27 @@ const getWeather = async (city, unit = "us") => {
 
 const processData = (weatherJSON) => {
   let weatherData = {};
-
   weatherData.resolvedAddress = weatherJSON.resolvedAddress;
   weatherData.currentConditions = weatherJSON.currentConditions;
   weatherData.days = {};
   for (let i = 0; i < 7; i++) {
     weatherData.days[i] = weatherJSON.days[i];
   }
-
   return weatherData;
 };
 
 const renderWeather = (weatherData) => {
-  heading.textContent = `It's ${weatherData.currentConditions.temp}° F right now in ${weatherData.resolvedAddress}.`;
+  heading.textContent = `It's ${weatherData.currentConditions.temp}° ${tempUnit} right now in ${weatherData.resolvedAddress}.`;
 };
 
 const submitEventHandler = async function (event) {
-  event.preventDefault();
+  event.preventDefault(); // don't actually submit the form
 
   const city = search.value;
-  let weatherJSON = await getWeather(city);
+  let weatherJSON = await getWeather(city, unitGroup);
   let weatherData = await processData(weatherJSON);
   renderWeather(weatherData);
 };
 
 form.addEventListener("submit", submitEventHandler);
+unitToggle.addEventListener("click", toggleUnits);
