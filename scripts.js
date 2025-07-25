@@ -28,6 +28,17 @@ const unitGroups = {
   },
 };
 
+// Needed to properly display the day of the week in the forecast
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 const toggleUnits = () => {
   currentUnit = unitToggle.checked ? "metric" : "us";
 };
@@ -55,7 +66,7 @@ const processData = (weatherJSON) => {
   weatherData.currentConditions = weatherJSON.currentConditions;
   weatherData.days = {};
   for (let i = 0; i < 7; i++) {
-    weatherData.days[i] = weatherJSON.days[i];
+    weatherData.days[i] = weatherJSON.days[i + 1];
   }
   return weatherData;
 };
@@ -87,6 +98,19 @@ const renderWeather = (weatherData) => {
   currentWrapper.appendChild(currentHumidity);
   currentWrapper.appendChild(currentWind);
   currentWrapper.appendChild(currentUV);
+
+  forecastWrapper.textContent = ""; // clear existing weather info
+  for (let i = 0; i < 7; i++) {
+    const myDateObj = new Date(weatherData.days[i].datetime);
+    const myDayName = days[myDateObj.getUTCDay()];
+    const myDayDiv = document.createElement("div");
+    myDayDiv.classList.add("forecast-day");
+
+    const myDate = document.createElement("p");
+    myDate.textContent = myDayName + "\n" + myDateObj.getUTCDate();
+    myDayDiv.appendChild(myDate);
+    forecastWrapper.appendChild(myDayDiv);
+  }
 };
 
 const submitEventHandler = async function (event) {

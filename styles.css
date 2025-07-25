@@ -157,3 +157,24 @@ input:checked + .slider:before {
   top: 8px;
   right: 10px;
 }
+
+.current-icon {
+  height: 100px;
+}
+
+.forecast-wrapper {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.forecast-day {
+  width: 200px;
+  height: 200px;
+  border: 1px solid blue;
+}
+
+/* DEBUG */
+div {
+  border: 1px solid red;
+}
