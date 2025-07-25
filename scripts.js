@@ -109,6 +109,22 @@ const renderWeather = (weatherData) => {
     const myDate = document.createElement("p");
     myDate.textContent = myDayName + "\n" + myDateObj.getUTCDate();
     myDayDiv.appendChild(myDate);
+
+    const myIcon = document.createElement("img");
+    myIcon.src = `img/${weatherData.days[i].icon}.svg`;
+    myDayDiv.appendChild(myIcon);
+
+    const myTemps = document.createElement("p");
+    const myMin = document.createElement("span");
+    myMin.classList.add("min-temp");
+    myMin.textContent = `${weatherData.days[i].tempmin}°`;
+    const myMax = document.createElement("span");
+    myMax.classList.add("max-temp");
+    myMax.textContent = `${weatherData.days[i].tempmax}°`;
+    myTemps.appendChild(myMax);
+    myTemps.appendChild(myMin);
+    myDayDiv.appendChild(myTemps);
+
     forecastWrapper.appendChild(myDayDiv);
   }
 };
