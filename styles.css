@@ -1,6 +1,88 @@
-h1 {
-  color: white;
-  text-align: center;
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+  padding: 0;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+/* ^^ END OF RESET ^^ */
+
+body {
+  display: flex;
+  justify-content: center;
+  background-color: #eee;
+}
+
+.main {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid red;
+  min-height: 100vh;
 }
 
 .toggle-switch {
@@ -27,7 +109,7 @@ h1 {
   background-color: #ccc;
   -webkit-transition: 0.4s;
   transition: 0.4s;
-  z-index: -1;
+  /* z-index: -1; */
 }
 
 .slider:before {
@@ -43,7 +125,7 @@ h1 {
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #ccc;
 }
 
 input:focus + .slider {

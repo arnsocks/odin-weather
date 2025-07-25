@@ -1,19 +1,38 @@
-let heading = document.querySelector(".heading");
 const form = document.querySelector("form");
 const search = document.getElementById("search");
 const unitToggle = document.getElementById("units");
+const currentWrapper = document.querySelector(".current-wrapper");
+const forecastWrapper = document.querySelector(".forecast-wrapper");
 
-let unitGroup = "us";
-let tempUnit = "F";
+let currentUnit = "us";
+unitToggle.checked = false;
 
-heading.style.backgroundColor = "blue";
-
-const toggleUnits = () => {
-  unitGroup = unitToggle.checked ? "metric" : "us";
-  tempUnit = unitToggle.checked ? "C" : "F";
+const unitGroups = {
+  us: {
+    name: "us",
+    temperature: "F",
+    precipitation: '"',
+    snow: '"',
+    wind: "MPH",
+    visibility: "mi.",
+    pressure: "mbar",
+  },
+  metric: {
+    name: "metric",
+    temperature: "C",
+    precipitation: "mm",
+    snow: "mm",
+    wind: "Km/h",
+    visibility: "Km",
+    pressure: "mbar",
+  },
 };
 
-const getWeather = async (city, unit = "us") => {
+const toggleUnits = () => {
+  currentUnit = unitToggle.checked ? "metric" : "us";
+};
+
+const getWeather = async (city = "New York City", unit = "us") => {
   console.log(
     `You asked for the weather in ${city} using the ${unit} system. `
   );
@@ -42,14 +61,39 @@ const processData = (weatherJSON) => {
 };
 
 const renderWeather = (weatherData) => {
-  heading.textContent = `It's ${weatherData.currentConditions.temp}° ${tempUnit} right now in ${weatherData.resolvedAddress}.`;
+  currentWrapper.textContent = ""; // clear existing weather info
+  const currentIcon = document.createElement("img");
+  currentIcon.classList.add("current-icon");
+  currentIcon.src = `img/${weatherData.currentConditions.icon}.svg`;
+
+  const currentTemp = document.createElement("p");
+  currentTemp.textContent = `${weatherData.currentConditions.temp}° ${unitGroups[currentUnit].temperature}`;
+
+  const currentFeel = document.createElement("p");
+  currentFeel.textContent = `Feels like: ${weatherData.currentConditions.feelslike}° ${unitGroups[currentUnit].temperature}`;
+
+  const currentHumidity = document.createElement("p");
+  currentHumidity.textContent = `Humidity: ${weatherData.currentConditions.humidity}%`;
+
+  const currentWind = document.createElement("p");
+  currentWind.textContent = `Windspeed: ${weatherData.currentConditions.windspeed}${unitGroups[currentUnit].wind}`;
+
+  const currentUV = document.createElement("p");
+  currentUV.textContent = `UV Index: ${weatherData.currentConditions.uvindex}`;
+
+  currentWrapper.appendChild(currentIcon);
+  currentWrapper.appendChild(currentTemp);
+  currentWrapper.appendChild(currentFeel);
+  currentWrapper.appendChild(currentHumidity);
+  currentWrapper.appendChild(currentWind);
+  currentWrapper.appendChild(currentUV);
 };
 
 const submitEventHandler = async function (event) {
   event.preventDefault(); // don't actually submit the form
 
   const city = search.value;
-  let weatherJSON = await getWeather(city, unitGroup);
+  let weatherJSON = await getWeather(city, currentUnit);
   let weatherData = await processData(weatherJSON);
   renderWeather(weatherData);
 };

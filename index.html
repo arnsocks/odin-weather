@@ -8,17 +8,29 @@
     <script src="scripts.js" defer></script>
   </head>
   <body>
-    <form>
-      <input type="search" id="search" name="search" />
-      <input type="submit" id="submit" value="get weather!" />
-      <label class="toggle-switch">
-        <input type="checkbox" name="units" id="units" />
-        <span class="slider round"></span>
-        <span class="left-span toggle-label">F</span>
-        <span class="right-span toggle-label">C</span>
-      </label>
-    </form>
-    <!-- <button>Get Weather</button> -->
-    <h1 class="heading">Hello world!</h1>
+    <div class="main">
+      <nav>
+        <form>
+          <label class="toggle-switch">
+            <input type="checkbox" name="units" id="units" />
+            <span class="slider round"></span>
+            <span class="left-span toggle-label">F</span>
+            <span class="right-span toggle-label">C</span>
+          </label>
+          <input type="search" id="search" name="search" />
+          <input type="submit" id="submit" value="get weather!" />
+        </form>
+      </nav>
+      <div class="weather-content">
+        <div>
+          <h1>Current Conditions</h1>
+          <div class="current-wrapper">
+            <img class="icon current-icon" />
+            <div class="current-conditions"></div>
+          </div>
+        </div>
+        <div class="forecast-wrapper"></div>
+      </div>
+    </div>
   </body>
 </html>
